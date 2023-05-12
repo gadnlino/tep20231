@@ -1,37 +1,39 @@
 import math
 
-def build_segment_tree(t, a, v, tl, tr):
-    if(tl == tr):
-       t[v] = a[tl]
+a = []
+t = []
+
+def build(i, l, r):
+    if(l == r):
+        t[i] = a[l]
     else:
-        tm = math.floor((tl + tr)/2)
-        build_segment_tree(t, a, 2*v, tl, tm)
-        build_segment_tree(t, a, 2*v + 1, tm+1, tr)
-        t[v] = t[2*v] + t[2*v+1]
-def update_segment_tree(t, v, tl, tr, new_val):
-    if(tl == tr):
-        t[v] = new_val
-    else:
-        tm = math.floor((tl + tr)/2)
+        m = math.floor((l+r)/2)
+        build(2*i, l, m)
+        build(2*i + 1, m+1, r)
 
-        update_segment_tree(t, 2*v, tl, tm, new_val)
-        update_segment_tree(t, 2*v+1, tm+1, tr, new_val)
+        t[i] = t[2*i] + t[2*i + 1]
 
-def query_segment_tree(t, v, tl, tr, i):
-    print(t, v, tl, tr, i)
+def update(i, l, r, ul, ur, val):
+    if(l != r):
+        m = math.floor((l+r)/2)
 
-    value = None
-    if(tl == tr):
-        value = t[v]
-    else:
-        tm = math.floor((tl + tr)/2)
+        update(2*i, l, m, ul, ur, val)
+        update(2*i+1, m+1, r, ul, ur, val)
 
-        if(i <= tm):
-            value = query_segment_tree(t, v, tl, tm, i)
-        else:
-            value = query_segment_tree(t, v, tm+1, tr, i)
+        t[i] = t[2*i] + t[2*i + 1]
+    elif(ul <= l and l <= ur):
+        t[i] = val
 
-    return value
+def query(i, l, r, ql, qr):
+    if(ql <= l and r <= qr):
+        return t[i]
+    
+    if(l > qr or r < ql):
+        return 0
+
+    m = math.floor((l+r)/2)
+
+    return query(2*i, l, m, ql, qr) + query(2*i+1, m+1, r, ql, qr)
 
 while True:
     try:
@@ -42,17 +44,18 @@ while True:
         a = [0 for i in range(n)]
         t = [0 for i in range(4*n)]
 
-        build_segment_tree(t, a, 1, 0, n-1)
+        #build(1, 0, len(a)-1)
 
         for __ in range(m):
             fight = list(map(lambda x : int(x), str(input()).split(" ")))
-            l = fight[0]
-            r = fight[1]
+            ul = fight[0]
+            ur = fight[1]
             winner = fight[2]
 
-            update_segment_tree(t, 1, l-1, r-1, winner)
+            update(1, 0, len(a)-1, ul, ur, winner)
+
         for i in range(n):
-            r = query_segment_tree(t, 1, 0, n-1, i)
+            r = query(1, 0, len(a)-1, i, i)
             print(r)
 
     except EOFError:

@@ -1,6 +1,7 @@
 import math
 
-t = []
+MAXLEN = 4 * 1024000
+t = [0 for __ in range(MAXLEN)]
 
 string = ''
 
@@ -47,8 +48,6 @@ def query_sum(i, l, r, ql, qr):
 
     return query_sum(2*i, l, m, ql, qr) + query_sum(2*i+1, m+1, r, ql, qr)
 
-
-
 ntests = int(input())
 
 for test in range(ntests):
@@ -56,18 +55,17 @@ for test in range(ntests):
     
     nparts = int(input())
 
-    string = ''
-
-    print('prebuildstring')
+    parts = []
 
     for __ in range(nparts):
         times = int(input())
         part = str(input())
 
-        for __ in range(times):
-            string += part
+        parts.extend(part for __ in range(times))
     
-    print('postbuildstring')
+    string = ''.join(parts)
+
+    #print('postbuildstring')
     
     t = [0 for i in range(4*len(string))]
 

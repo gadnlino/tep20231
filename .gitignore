@@ -14,3 +14,4 @@ Cargo.lock
 
 /target
 *.exe
+src/aula5/remainders_game/in5.txt
