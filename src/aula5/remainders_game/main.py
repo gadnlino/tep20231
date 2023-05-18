@@ -2,22 +2,23 @@ while True:
     try:
         
         args = list(map(lambda x : int(x), input().split(" ")))
-
+ 
+        k = args[1]
+ 
         numbers = list(map(lambda x : int(x), input().split(" ")))
+ 
+        numbers.sort(reverse=True)
 
-        prod = 1
-
-        print('pre loop')
-
-        for i in numbers:
-            prod = prod * i
+        result = 'No'
         
-        print('post loop')
-        
-        mod = prod % args[1]
-
-        result = 'Yes' if mod == 0 else 'No'
-
+        for nn in numbers:
+            if(nn < k):
+                break
+ 
+            if(nn % k == 0):
+                result = 'Yes'
+                break
+ 
         print(result)
     except EOFError:
         break

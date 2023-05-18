@@ -1,13 +1,13 @@
 
 import random
 
-n = 1_000_000
+n = 100_000
 k = 740891
 
 ns = []
 
 for __ in range(n):
-    ns.append(str(random.randint(0, 1_000_000)))
+    for j in range(int(n/2)):
+        pass
 
-print(f'{n} {k}')
-print(' '.join(ns))
+print('done')
