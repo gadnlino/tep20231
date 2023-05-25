@@ -1,13 +1,21 @@
 #https://www.baeldung.com/java-least-common-multiple#:~:text=Using%20the%20Euclidean%20Algorithm,-There's%20an%20interesting&text=As%20stated%2C%20gcd(a%2C,gcd(a%2Cb).
 
-def gcd(n1, n2):
-    while(n1 % n2 > 0):
-        r = n1 % n2
-        n1 = n2
-        n2 = r
-    
-    return n2
+def gcde(a, b, d, x, y):
+    print(a, b, d, x, y)
+    if (b == 0):
+        d = a
+        x = 1
+        y = 0
 
+        return a, b, d, x, y
+
+    _, _, d, x, y = gcde(b, a % b, d, x, y)
+
+    s = y
+    y = x - (a / b) * y
+    x = s
+
+    return a, b, d, x, y
 
 while True:
     try:
@@ -16,8 +24,8 @@ while True:
         a = args[0]
         b = args[1]
 
-        gc = gcd(max(a, b), min(a, b))
+        a, b, d, x, y = gcde(a, b, a, 0, 0)
 
-        if()
+        print(min(x, y), max(x, y))
     except EOFError:
         break
